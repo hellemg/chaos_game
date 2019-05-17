@@ -17,6 +17,7 @@ def color_chaos_image(chaos_image, colormap_image, background, filename = 'Chaos
     :param chaos_image: PIL Image, DIMS x DIMS; white chaos-pattern on bg-colored pattern
     :param colormap_image: PIL Image, DIMS x DIMS; color-pattern to merge with chaos-pattern
     :param background: tuple, (3 values, RGB) background-color of chaos_im
+    filename: string. Name of file that the image is saved to
     :return: PIL Image; colored pattern
     """
     width, height = chaos_image.size

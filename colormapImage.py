@@ -1,77 +1,45 @@
 import numpy as np
 from matplotlib.colors import ListedColormap
 from matplotlib import pyplot as plt
-from PIL import Image
 
 from globalConstants import *
-
-# Create list of tuples with RGB-values for each colour in colourmap
-COLORS = [(243, 188, 147),  # Yellow
-          (255, 129, 130),  # Light orange
-          (236, 109, 128),  # Dark orange
-          (178, 85, 114),  # Red
-          (134, 67, 102),  # Dark red
-          (21, 37, 60),  # Blue-black
-          (0, 57, 67),  # Dark blue
-          (0, 101, 129),  # Medium blue
-          (121, 178, 205)]  # Light blue
-
-colors_dict = {'Yellow': (243, 188, 147), 'Light orange': (255, 129, 130), 'Dark orange': (236, 109, 128),
-               'Red': (178, 85, 114), 'Dark red': (134, 67, 102), 'Blue-black': (21, 37, 60), 'Dark blue': (0, 57, 67),
-               'Medium blue': (0, 101, 129), 'Light blue': (121, 178, 205)}
-
-# Define RGB-size, size of intervals, and size of colormap
-P = 256
-
 
 def create_colormap():
     """
     Creates colormap from RGB-values given by COLORS
-    :param colors: list of tuples (3 values, RGB)
-    :return: TYPE????, colormap where first values in colors are lightest/darkest??
+    :return: matplotlib colors ListedColormap; gradient colormap
     """
-    num_colours = len(COLORS)
-    # interval-length must be 1 less than the number of colours
-    num_values = int(P / (num_colours - 1))
-    #define matrix for P x RGBA values
-    vals = np.ones((P, 4))
-    # Set colours to gradient to next neighbour
-    for i in range(num_colours - 1):
+    # Size of colormap, rgba-range
+    rgba_range = 256
+    number_of_colors = len(COLORS)
+    # Size of each gradient-color-interval
+    interval_length = int(rgba_range / (number_of_colors - 1))
+    # Matrix for all RGBA-colors
+    colormap_pixel_values = np.ones((rgba_range, 4))
+    # Gradient colors in each interval
+    for i in range(number_of_colors - 1):
         for j in range(3):
-            vals[i * num_values:(i + 1) * num_values, j] = np.linspace(COLORS[i][j] / P, COLORS[i + 1][j] / P,
-                                                                       num_values)
-    # Ensure that values at the end has a colour (here set to last colour)
+            colormap_pixel_values[i * interval_length:(i + 1) * interval_length, j] = np.linspace(
+                COLORS[i][j] / rgba_range, COLORS[i + 1][j] / rgba_range,
+                interval_length)
+    # Set colors for last entries in colormap_pixel_values (set to last colour in COLORS)
     for j in range(3):
-        vals[8 * num_values:, j] = COLORS[num_colours - 1][j] / P
-    return ListedColormap(vals)
+        colormap_pixel_values[8 * interval_length:, j] = COLORS[number_of_colors - 1][j] / rgba_range
+    return ListedColormap(colormap_pixel_values)
 
 
-def create_pattern(mode='dark', cmap=create_colormap()):
-    # pop_number = make_a_color_dict[mode]
-    if mode == 'dark':
-        COLORS.pop(6)
-        filename = 'ColormapImageDark.png'
-    else:
-        COLORS.pop(7)
-        filename = 'ColormapImageMedium.png'
+def create_pattern(colormap, filename='ColormapImage'):
+    """
+    Creates a pattern by using given colormap on a function
+    :param colormap: matplotlib colors ListedColormap; gradient colormap
+    :param filename: string. Name of file that the image is saved to
+    :return: NONE; only saves the file
+    """
     const = np.pi
-    # These parameters for the functions currently work, if these are changed the function must be changes (nightmare)
     width = DIMS
-    height = DIMS / 4
-    # x = np.arange(width)
-    # y = np.arange(height)
+    height = DIMS
     x = np.arange(width)
     y = np.arange(height)
     x, y = np.meshgrid(x, y)
-    """
-    z = np.exp((2 * y + x) / width) * (np.sin(0.5 * const * (x) / (height))) + (
-        np.cos(const * 2 * y / height)) + np.cos(const * (x + y) / height)
-    """
-    # z = e ^ y * sin ^ 2(x) + y * cos ^ 2(y)
-    #######
-    ########FIND THE ONE IN yolo.png############
-    z = np.exp(const * y / (2 * width)) * (1 + np.sin(const * (x + y) / (height)) ** 2) + y / height * (
-        np.cos(const * y / height)) ** 2 + np.cos(
-        const * (x + y) / height)
-
-    plt.imsave(filename, z, cmap=cmap)
+    z = np.exp(y) * (np.sin(x))**2 + y * (np.cos(y))**2
+    plt.imsave(filename+'.png', z, cmap=colormap)
