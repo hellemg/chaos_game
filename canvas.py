@@ -5,10 +5,10 @@ from matplotlib import pyplot as plt
 from globalConstants import *
 
 
-def setup_canvas(bg=(0, 57, 67), filename='Canvas.png'):
+def setup_canvas(background=(0, 57, 67), filename='Canvas.png'):
     """
     Creates an empty canvas
-    :param bg: tuple, 1 x 3; Backgroundcolor for the canvas
+    :param background: tuple, 1 x 3; Backgroundcolor for the canvas
     :param filename: string; Name of file that the canvas is saved to
     :return: PIL Image, DIMS x DIMS
     """
@@ -16,8 +16,8 @@ def setup_canvas(bg=(0, 57, 67), filename='Canvas.png'):
     canvas = Image.fromarray(canvas).convert("RGB")
     for r in range(DIMS):
         for c in range(DIMS):
-            canvas.putpixel((r, c), bg)
-    plt.imsave(filename, canvas)
+            canvas.putpixel((r, c), background)
+    plt.imsave(filename+'png', canvas)
     print('..saved', filename)
     return canvas
 

@@ -3,14 +3,14 @@ import numpy as np
 from globalConstants import *
 
 
-def chaos_game(canvas, points, bg=(0, 57, 67), filename='ChaosGame.png', colormap_image=None):
+def chaos_game(canvas, points, background=(0, 57, 67), filename='ChaosGamePattern', colormap_image=None):
     """
-    Creates pattern by chaos game algorithm
+    Creates pattern by chaos game algorithm, either with white pattern or with colored pattern
     :param canvas: PIL Image; empty canvas to fill with chaos-pattern
     :param points: Numpy array; points that give position of vertices
-    :param bg: tuple, 1x3. Backgroundcolor for the canvas
+    :param background: tuple, 1x3. Backgroundcolor for the canvas
     :param filename: string. Name of file that the image is saved to
-    :param colormap_image: PIL Image; colored image to overlay pattern
+    :param colormap_image: PIL Image; colored image to overlay pattern. If none is given the pattern will be white
     :return: PIL Image, DIMS x DIMS; Image with colored chaos pattern
     """
     # Set initial conditions
@@ -28,15 +28,22 @@ def chaos_game(canvas, points, bg=(0, 57, 67), filename='ChaosGame.png', colorma
                 current_x = int((current_x + next_point[0]) / 2)
                 current_y = int((current_y + next_point[1]) / 2)
                 current_point = next_point
-                pixel = colormap_image.getpixel((current_x, current_y))
+                if colormap_image:
+                    pixel = colormap_image.getpixel((current_x, current_y))
+                    filename+="Colored"
+                else:
+                    pixel=0
                 canvas.putpixel((current_x, current_y), pixel)
         # Run chaos algorithm for 3 starting points
         elif nr_of_points == 3:
             current_x = int((current_x + next_point[0]) / 2)
             current_y = int((current_y + next_point[1]) / 2)
             current_point = next_point
-            pixel = colormap_image.getpixel((current_x, current_y))
+            if colormap_image:
+                pixel = colormap_image.getpixel((current_x, current_y))
+            else:
+                pixel = 0
             canvas.putpixel((current_x, current_y), pixel)
-    canvas.save(filename)
+    canvas.save(filename+'png')
     print('..saved', filename)
     return canvas

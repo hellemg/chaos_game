@@ -1,30 +1,30 @@
 from matplotlib import pyplot as plt
 
 
-def check_if_bg_pixel(pixel, bg):
+def check_if_bg_pixel(pixel, background):
     """
     Checks if a pixel contains the given background-color
-    :param pixel: tuple (4 values, RGBA)
-    :param bg: tuple, (3 values, RGB)
-    :return: boolean
+    :param pixel: tuple, 1 x 4
+    :param background: tuple, 1 x 3
+    :return: boolean; True if pixel is the same RGB-color as background
     """
-    return (pixel[0] == bg[0]) and (pixel[1] == bg[1]) and (pixel[2] == bg[2])
+    return (pixel[0] == background[0]) and (pixel[1] == background[1]) and (pixel[2] == background[2])
 
 
-def colorChaosImage(chaos_im, cm_im, bg):
+def color_chaos_image(chaos_image, colormap_image, background, filename = 'ChaosGameColored'):
     """
-    Colors non-background part of image
-    :param chaos_im: PIL Image, white chaos-pattern on bg-colored pattern
-    :param cm_im: PIL Image, color-pattern to merge with chaos-pattern
-    :param bg: tuple, (3 values, RGB) background-color of chaos_im
-    :return: NONE, saves created image
+    Colors patterned part
+    :param chaos_image: PIL Image, DIMS x DIMS; white chaos-pattern on bg-colored pattern
+    :param colormap_image: PIL Image, DIMS x DIMS; color-pattern to merge with chaos-pattern
+    :param background: tuple, (3 values, RGB) background-color of chaos_im
+    :return: PIL Image; colored pattern
     """
-    filename = 'ColoredChaosGameBW_dark3'
-    width, height = chaos_im.size
+    width, height = chaos_image.size
     for h in range(height):
         for w in range(width):
-            pixel = chaos_im.getpixel((w, h))
-            if not check_if_bg_pixel(pixel, bg):
-                chaos_im.putpixel((w, h),(204, 102, 51))
-                #chaos_im.putpixel((w, h), cm_im.getpixel((w, h)))
-    plt.imsave(filename + '.png', chaos_im)
+            pixel = chaos_image.getpixel((w, h))
+            if not check_if_bg_pixel(pixel, background):
+                new_pixel=colormap_image.getpixel((w,h))
+                chaos_image.putpixel((w, h),new_pixel)
+    plt.imsave(filename + '.png', chaos_image)
+    return chaos_image
