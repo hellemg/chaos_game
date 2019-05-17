@@ -2,7 +2,6 @@ if __name__ == '__main__':
     print("Welcome to main")
 
     import numpy as np
-    from PIL import Image
     from matplotlib import pyplot as plt
 
     from globalConstants import *
@@ -11,59 +10,31 @@ if __name__ == '__main__':
     from chaosGame import *
     from colorChaosImage import *
 
-    # Create canvas and
-    canvas = setup_canvas3D()
-    points = setup_points3D()
-
-    chaos_game(canvas, points)
-    chaos_im = Image.open('ChaosImageBW_dark3.png')
-    cm_im = Image.open('ColormapImageDarkNew.png')
-    bg = (255, 255, 255)
-    colorChaosImage(chaos_im, cm_im, bg)
-
-    # cm_hot = create_colormap()
-    # img_src = Image.open('potential.png').convert('L')
-    # img_src.thumbnail((512, 512))
-    # im = np.array(img_src)
-    # im = cm_hot(im)
-    # im = np.uint8(im * 255)
-    # im = Image.fromarray(im)
-    # im.save('test_hot.png')
-    """
-    dict = {'a':1,'b':2,'c':4}
-    N = len(dict)
-    vals = np.ones((20, 4))
-    for i in range(N-1):
-        for j in range(3):
-            vals[i * N:(i + 1) * N, j] = np.linspace(dict[i][j] / P, dict[i + 1][j] / P, N)
-    """
-    """
+    background = (134, 67, 102)
+    # Create canvas
     try:
-        c = Image.open('CanvasDark.png')
+        canvas = Image.open('images/Canvas.png')
     except:
-        c = setup_canvas()
+        canvas = setup_canvas(background)
 
-    #p = setup_points()
+    # Create pattern on the background
+    try:
+        pattern_canvas = Image.open('images/ChaosGamePattern.png')
+    except:
+        starting_points = setup_points()
+        pattern_canvas = chaos_game(canvas, starting_points, background)
 
+    # Create image with colormap-colors
+    try:
+        colormap_image = Image.open('images/ColormapImage.png')
+    except:
+        # Create colormap
+        colormap = create_colormap()
+        colormap_image = create_pattern(colormap)
 
-    create_pattern('dark')
-    
-    #cm_im = Image.open('ColormapImageDark.png')
-    cm_im = Image.open('yolo.png')
+    # Color chaos-game
+    color_chaos_image(pattern_canvas, colormap_image, background)
 
-    width, height = cm_im.size
-    width = 3.5*height
-    #chaos_game(c, p, cm_im)
-    c = Image.open('chaosImageDarkBW.png')
-
-    area = (1000-width/2, 1000-height/2, 1000+width/2, 1000+height/2) #left, up, right, bottom
-    c = c.crop(area)
-
-    colorChaosImage(c, cm_im, (0, 57, 67))
-
-    c.show()
-
-    """
 ################################
 """
     def make_circle(c, x0, y0, r,shade):

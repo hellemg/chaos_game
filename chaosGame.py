@@ -10,7 +10,7 @@ def chaos_game(canvas, points, background=(0, 57, 67), filename='ChaosGamePatter
     :param points: Numpy array; points that give position of vertices
     :param background: tuple, 1x3. Backgroundcolor for the canvas
     :param filename: string. Name of file that the image is saved to
-    :param colormap_image: PIL Image; colored image to overlay pattern. If none is given the pattern will be white
+    :param colormap_image: PIL Image; colored image to overlay pattern. If none is given the pattern will be black
     :return: PIL Image, DIMS x DIMS; Image with colored chaos pattern
     """
     # Set initial conditions
@@ -44,6 +44,6 @@ def chaos_game(canvas, points, background=(0, 57, 67), filename='ChaosGamePatter
             else:
                 pixel = 0
             canvas.putpixel((current_x, current_y), pixel)
-    canvas.save(filename+'png')
+    canvas.save('images/'+filename+'.png')
     print('..saved', filename)
     return canvas

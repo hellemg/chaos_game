@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib.colors import ListedColormap
 from matplotlib import pyplot as plt
+from PIL import Image
 
 from globalConstants import *
 
@@ -33,7 +34,7 @@ def create_pattern(colormap, filename='ColormapImage'):
     Creates a pattern by using given colormap on a function
     :param colormap: matplotlib colors ListedColormap; gradient colormap
     :param filename: string. Name of file that the image is saved to
-    :return: NONE; only saves the file
+    :return: PIL Image; pattern given by function and colormap
     """
     const = np.pi
     width = DIMS
@@ -41,5 +42,6 @@ def create_pattern(colormap, filename='ColormapImage'):
     x = np.arange(width)
     y = np.arange(height)
     x, y = np.meshgrid(x, y)
-    z = np.exp(y) * (np.sin(x))**2 + y * (np.cos(y))**2
-    plt.imsave(filename+'.png', z, cmap=colormap)
+    z = np.sin(const/400*x)#np.exp(y) * (np.sin(x))**2 + y * (np.cos(y))**2
+    plt.imsave('images/'+filename+'.png', z, cmap=colormap)
+    return Image.open('images/'+filename+'.png')

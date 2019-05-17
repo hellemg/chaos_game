@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from globalConstants import *
 
 
-def setup_canvas(background=(0, 57, 67), filename='Canvas.png'):
+def setup_canvas(background, filename='Canvas'):
     """
     Creates an empty canvas
     :param background: tuple, 1 x 3; Backgroundcolor for the canvas
@@ -17,7 +17,7 @@ def setup_canvas(background=(0, 57, 67), filename='Canvas.png'):
     for r in range(DIMS):
         for c in range(DIMS):
             canvas.putpixel((r, c), background)
-    plt.imsave(filename+'png', canvas)
+    canvas.save('images/'+filename + '.png')
     print('..saved', filename)
     return canvas
 
