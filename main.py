@@ -1,36 +1,32 @@
 if __name__ == '__main__':
     print("Welcome to main")
 
-    import numpy as np
-    from matplotlib import pyplot as plt
-
     from globalConstants import *
     from canvas import *
     from colormapImage import *
     from chaosGame import *
     from colorChaosImage import *
 
-    background = (134, 67, 102)
+    background = (0, 0, 0)#(255,255,255)#(134, 67, 102)
     # Create canvas
     try:
         canvas = Image.open('images/Canvas.png')
     except:
         canvas = setup_canvas(background)
 
+    # Create image with colormap-colors
+    try:
+        colormap_image = Image.open('images/ColormapImageDark.png')
+    except:
+        colormap = create_colormap()
+        colormap_image = create_pattern(colormap)
+
     # Create pattern on the background
     try:
         pattern_canvas = Image.open('images/ChaosGamePattern.png')
     except:
         starting_points = setup_points()
-        pattern_canvas = chaos_game(canvas, starting_points, background)
-
-    # Create image with colormap-colors
-    try:
-        colormap_image = Image.open('images/ColormapImage.png')
-    except:
-        # Create colormap
-        colormap = create_colormap()
-        colormap_image = create_pattern(colormap)
+        pattern_canvas = chaos_game(canvas, starting_points, background, filename="ChaosGameOpposite")
 
     # Color chaos-game
     color_chaos_image(pattern_canvas, colormap_image, background)

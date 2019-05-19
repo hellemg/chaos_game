@@ -5,6 +5,7 @@ from PIL import Image
 
 from globalConstants import *
 
+
 def create_colormap():
     """
     Creates colormap from RGB-values given by COLORS
@@ -42,6 +43,8 @@ def create_pattern(colormap, filename='ColormapImage'):
     x = np.arange(width)
     y = np.arange(height)
     x, y = np.meshgrid(x, y)
-    z = np.sin(const/400*x)#np.exp(y) * (np.sin(x))**2 + y * (np.cos(y))**2
-    plt.imsave('images/'+filename+'.png', z, cmap=colormap)
-    return Image.open('images/'+filename+'.png')
+    z = np.exp(const * y / (5 * width)) * (1 + np.sin(const * (x + y) / (height)) ** 2) + np.cos(
+        const * (x + y) / height) * np.sin(const / 600 * y) * np.sin(const / 600 * x)
+    plt.imsave('images/' + filename + '.png', z, cmap=colormap)
+    print("...saved", filename)
+    return Image.open('images/' + filename + '.png')

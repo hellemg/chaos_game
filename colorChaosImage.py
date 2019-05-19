@@ -24,8 +24,9 @@ def color_chaos_image(chaos_image, colormap_image, background, filename = 'Chaos
     for h in range(height):
         for w in range(width):
             pixel = chaos_image.getpixel((w, h))
-            if not check_if_bg_pixel(pixel, background):
+            if check_if_bg_pixel(pixel, background):
                 new_pixel=colormap_image.getpixel((w,h))
                 chaos_image.putpixel((w, h),new_pixel)
+    print("...saved", filename)
     plt.imsave('images/'+filename + '.png', chaos_image)
     return chaos_image
