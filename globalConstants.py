@@ -5,6 +5,14 @@ DIMS = 2000;
 N = 1000000
 
 # Create list of tuples with RGB-values for the colormap
+COLORS = [
+    (241, 210, 20),  # Yellow
+    (241, 143, 1),  # Light orange
+    (241, 46, 123),  # Pink
+    (145, 114, 226),  # Purple
+    (6, 205, 172)  # Green
+]
+"""
 COLORS = [(244, 213, 41),  # Yellow
           (241, 143, 1),  # Light orange
           (241, 93, 34),  # Orange
@@ -14,7 +22,7 @@ COLORS = [(244, 213, 41),  # Yellow
           (10, 147, 178),  # blue
           (25, 80, 104),  # Dark blue
           ]
-"""
+
 # COLORS = [(243, 188, 147),  # Yellow
           (255, 129, 130),  # Light orange
           (236, 109, 128),  # Dark orange

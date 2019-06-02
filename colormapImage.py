@@ -26,7 +26,7 @@ def create_colormap():
                 interval_length)
     # Set colors for last entries in colormap_pixel_values (set to last colour in COLORS)
     for j in range(3):
-        colormap_pixel_values[8 * interval_length:, j] = COLORS[number_of_colors - 1][j] / rgba_range
+        colormap_pixel_values[(number_of_colors - 1) * interval_length:, j] = COLORS[number_of_colors - 1][j] / rgba_range
     return ListedColormap(colormap_pixel_values)
 
 

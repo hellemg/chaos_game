@@ -6,12 +6,13 @@ if __name__ == '__main__':
     from colormapImage import *
     from chaosGame import *
     from colorChaosImage import *
+    from matplotlib import cm
 
-    background = (0, 0, 0)
-    use_colormap_directly = False
+    background = (255, 255, 255)
+    use_colormap_directly = True
     # Create canvas
     try:
-        canvas = Image.open('images/Canvas.png')
+        canvas = Image.open('images/CanvasLight.png')
     except:
         canvas = setup_canvas(background)
 
@@ -33,3 +34,15 @@ if __name__ == '__main__':
         else:
             pattern_canvas = chaos_game(canvas, starting_points, background)
             color_chaos_image(pattern_canvas, colormap_image, background)
+    """
+
+    def plot_color_gradients(cmap_list):
+        gradient = np.linspace(0, 1, 256)
+        gradient = np.vstack((gradient, gradient))
+        plt.imshow(gradient, aspect='auto', cmap=cmap_list)
+        plt.show()
+
+
+    cmap_list=create_colormap()
+    plot_color_gradients(cmap_list)
+    """
