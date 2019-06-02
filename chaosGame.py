@@ -31,7 +31,7 @@ def chaos_game(canvas, points, background=(0, 57, 67), filename='ChaosGamePatter
                 if colormap_image:
                     pixel = colormap_image.getpixel((current_x, current_y))
                 else:
-                    pixel=(226,226,226)
+                    pixel=(255,255,255)
                 canvas.putpixel((current_x, current_y), pixel)
         # Run chaos algorithm for 3 starting points
         elif nr_of_points == 3:
@@ -43,6 +43,8 @@ def chaos_game(canvas, points, background=(0, 57, 67), filename='ChaosGamePatter
             else:
                 pixel = 0
             canvas.putpixel((current_x, current_y), pixel)
+    if colormap_image:
+        filename+='Colored'
     canvas.save('images/'+filename+'.png')
     print('..saved', filename)
     return canvas

@@ -7,7 +7,8 @@ if __name__ == '__main__':
     from chaosGame import *
     from colorChaosImage import *
 
-    background = (0, 0, 0)#(255,255,255)#(134, 67, 102)
+    background = (0, 0, 0)
+    use_colormap_directly = False
     # Create canvas
     try:
         canvas = Image.open('images/Canvas.png')
@@ -16,7 +17,7 @@ if __name__ == '__main__':
 
     # Create image with colormap-colors
     try:
-        colormap_image = Image.open('images/ColormapImageDark.png')
+        colormap_image = Image.open('images/ColormapImage.png')
     except:
         colormap = create_colormap()
         colormap_image = create_pattern(colormap)
@@ -24,22 +25,11 @@ if __name__ == '__main__':
     # Create pattern on the background
     try:
         pattern_canvas = Image.open('images/ChaosGamePattern.png')
+        color_chaos_image(pattern_canvas, colormap_image, background)
     except:
         starting_points = setup_points()
-        pattern_canvas = chaos_game(canvas, starting_points, background, filename="ChaosGameOpposite")
-
-    # Color chaos-game
-    color_chaos_image(pattern_canvas, colormap_image, background)
-
-################################
-"""
-    def make_circle(c, x0, y0, r,shade):
-        if r == 0:
-            c[x0][y0] = shade
+        if use_colormap_directly:
+            chaos_game(canvas, starting_points, background, filename='ChaosGamePattern', colormap_image=colormap_image)
         else:
-            for x in range(int((x0-r)), int(x0+r)):
-                for y in range(int((y0-r)), int(y0+r)):
-                    if ((x-x0)**2 + (y-y0)**2) <= r**2:
-                        c[x][y] = shade
-        return c
-"""
+            pattern_canvas = chaos_game(canvas, starting_points, background)
+            color_chaos_image(pattern_canvas, colormap_image, background)
